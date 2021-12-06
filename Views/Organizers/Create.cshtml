@@ -1,0 +1,45 @@
+﻿@model Lab5.Models.Organizer
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<link href="~/css/foundation.css" rel="stylesheet" />
+<img src="~/images/event management logo.jpg" alt="Logo">
+
+<!-- Nav Bar-->
+<div class="top-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text">Event Management</li>
+        <li><a href="~/Home/Index">Home</a></li>
+        <li><a href="~/Events/Index">Events</a></li>
+        <li><a href="~/Organizers/Index">Organizers</a></li>
+    </ul>
+</div>
+
+<h4>Organizer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
