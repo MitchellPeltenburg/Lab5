@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Lab5.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Lab5
 {
@@ -28,12 +29,16 @@ namespace Lab5
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvc();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
             //Adding connection
             string connection = @"Server=(localdb)\mssqllocaldb;Database=Lab_5;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<EventContext>(options => options.UseSqlServer(connection));
+            //services.AddDbContext<EventContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<EventContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<EventContext>().AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +60,10 @@ namespace Lab5
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMvcWithDefaultRoute();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
